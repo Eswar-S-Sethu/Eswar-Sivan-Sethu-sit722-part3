@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  book-catalog:
+    image: bookregistry.azurecr.io/bookcatalog:1
+    container_name: bookcatalog
+    networks:
+      private_network:
+        ipv4_address: 172.18.0.2
+    ports:
+      - "80:80"
+    environment:
+      - DATABASE_URL=postgresql://eswar:sntfsH4KseIRok6uJt8kecLmz0ikuHFE@dpg-cruv2s88fa8c73co7bhg-a.singapore-postgres.render.com/bookiedb_1h4f
+
+  inventory:
+    image: bookregistry.azurecr.io/inventorymanagement:2
+    container_name: inventorymanagement
+    networks:
+      private_network:
+        ipv4_address: 172.18.0.3
+    ports:
+      - "81:80"
+    environment:
+      - DATABASE_URL=postgresql://eswar:sntfsH4KseIRok6uJt8kecLmz0ikuHFE@dpg-cruv2s88fa8c73co7bhg-a.singapore-postgres.render.com/bookiedb_1h4f
+
+networks:
+  private_network:
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+
